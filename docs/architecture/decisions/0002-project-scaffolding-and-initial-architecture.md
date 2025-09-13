@@ -33,7 +33,7 @@ We will set up the project boilerplate with the following technologies:
 - **Containerization**: Docker (to standardize environments and deployments).  
 - **CI/CD**: GitHub Actions (tightly integrated with our GitHub repository).  
 - **Linting & Formatting**: Biome (faster and simpler than ESLint + Prettier).  
-- **Test runner**: Vitest (fast, modern, and integrates well with TypeScript).
+- **Test runner**: Jest (well stablished with a large ecosystem).
 - **Repository structure**: Monorepo (enables fast iteration and shared dependencies across multiple apps).  
 - **Monorepo management**: Nx (more mature and flexible than Turborepo, supports multiple ecosystems).  
 
@@ -51,9 +51,10 @@ We will set up the project boilerplate with the following technologies:
   - Clear separation between apps/services.  
   - Higher overhead in dependency management and cross-repo coordination, not ideal for a small team.  
 
-- **Jest** instead of Vitest:  
-  - More established with a larger ecosystem.  
-  - Slower and more complex configuration compared to Vitest.
+- **Vitest** instead of Jest:  
+  - Faster with less complex configuration when compared to Jest.
+  - Less stablished with a smaller ecosystem.
+  - It's not Nest's default option.
 
 ## Consequences
 
