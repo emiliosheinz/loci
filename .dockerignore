@@ -1,0 +1,58 @@
+# Git
+.git
+.gitignore
+
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build outputs
+dist
+build
+coverage
+
+# Nx cache
+.nx
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+.DS_Store
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Testing
+coverage
+.nyc_output
+
+# Documentation
+docs
+.adr-dir
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+docker-compose*.yaml
+.dockerignore
+
+# CI/CD
+.github
+
+# Temporary files
+*.tmp
+.temp
+tmp
+temp
+
+# Claude
+.claude

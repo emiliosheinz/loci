@@ -1,0 +1,13 @@
+{
+	"name": "@loci/config",
+	"version": "0.0.1",
+	"private": true,
+	"description": "Shared configuration for Loci monorepo",
+	"license": "MIT",
+	"author": "Loci Team",
+	"exports": {
+		"./biome": "./biome.json",
+		"./jest/*": "./jest.config.*.json",
+		"./typescript/*": "./tsconfig.*.json"
+	}
+}

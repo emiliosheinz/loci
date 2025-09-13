@@ -1,0 +1,12 @@
+services:
+  api:
+    container_name: api
+    build:
+      context: .
+      target: prod 
+      dockerfile: apps/api/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: "3000"
+      NODE_ENV: production 
