@@ -14,11 +14,13 @@ Since we mainly work in an **asynchronous environment**, documenting and alignin
 
 Key considerations:  
 
+- We are going to focus on the areas we are more certain about: backend, language, repository structure, tooling, and CI/CD.
+- Things like **frontend** and **database** definitions will be ignored as they should have their own ADRs in the future.
 - The backend should use a **language and framework familiar to the team** to move quickly.  
 - We want **type safety** to reduce runtime errors and improve developer productivity.  
 - **Containerization** is required to ensure reproducibility across local and production environments.  
 - The repository is hosted on **GitHub**, making **GitHub Actions** the natural choice for CI/CD.  
-- We want **fast, easy-to-use tooling** for linting and formatting.  
+- We want **fast, easy-to-use tooling** for linting, formatting, and running our tests.  
 - The project will likely grow to include multiple apps; to keep development velocity, we prefer a **monorepo** over managing multiple repositories.  
 - For monorepo management, we want a **mature, flexible tool** that supports different technologies beyond JavaScript.  
 
@@ -31,6 +33,7 @@ We will set up the project boilerplate with the following technologies:
 - **Containerization**: Docker (to standardize environments and deployments).  
 - **CI/CD**: GitHub Actions (tightly integrated with our GitHub repository).  
 - **Linting & Formatting**: Biome (faster and simpler than ESLint + Prettier).  
+- **Test runner**: Vitest (fast, modern, and integrates well with TypeScript).
 - **Repository structure**: Monorepo (enables fast iteration and shared dependencies across multiple apps).  
 - **Monorepo management**: Nx (more mature and flexible than Turborepo, supports multiple ecosystems).  
 
@@ -47,6 +50,10 @@ We will set up the project boilerplate with the following technologies:
 - **Multi-repo setup** instead of Monorepo:  
   - Clear separation between apps/services.  
   - Higher overhead in dependency management and cross-repo coordination, not ideal for a small team.  
+
+- **Jest** instead of Vitest:  
+  - More established with a larger ecosystem.  
+  - Slower and more complex configuration compared to Vitest.
 
 ## Consequences
 
