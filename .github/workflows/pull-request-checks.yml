@@ -136,10 +136,27 @@ jobs:
       - name: Build all Docker images
         run: pnpm nx affected --target docker:build -- --target prod
 
+  conventional-commits:
+    name: Validate Conventional Commits
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Validate all commits follow conventional commits
+        uses: wagoid/commitlint-github-action@v6
+        with:
+          failOnWarnings: true
+          configFile: .commitlintrc.json
+          helpURL: https://www.conventionalcommits.org
+
   all-checks-pass:
     name: All Checks Pass
     runs-on: ubuntu-latest
-    needs: [lint-format, test, build, docker-build]
+    needs: [lint-format, test, build, docker-build, conventional-commits]
     if: always()
 
     steps:
