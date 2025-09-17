@@ -1,21 +1,20 @@
 {
-	"name": "loci",
-	"version": "0.0.1",
-	"description": "A simple, frictionless app to capture anything in the moment",
-	"keywords": [
-		"loci",
-		"notes",
-		"memory"
-	],
-	"license": "MIT",
-	"author": "Loci Team",
-	"packageManager": "pnpm@10.14.0",
-	"devDependencies": {
-		"@biomejs/biome": "2.2.4",
-		"@nx/docker": "21.5.2",
-		"nx": "21.5.2"
-	},
-	"engines": {
-		"node": "24.x"
-	}
+  "name": "loci",
+  "version": "0.0.1",
+  "description": "A simple, frictionless app to capture anything in the moment",
+  "keywords": [
+    "loci",
+    "notes",
+    "memory"
+  ],
+  "license": "MIT",
+  "author": "Loci Team",
+  "packageManager": "pnpm@10.14.0",
+  "devDependencies": {
+    "@nx/docker": "21.5.2",
+    "nx": "21.5.2"
+  },
+  "engines": {
+    "node": "24.x"
+  }
 }
