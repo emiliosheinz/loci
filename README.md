@@ -1,5 +1,6 @@
-# Loci
+![Loci Banner](./docs/images/banner.png)
 
+# Loci
 A simple, frictionless app to capture anything in the moment.
 
 ## Quick Start
