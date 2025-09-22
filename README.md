@@ -1,7 +1,8 @@
 ![Loci Banner](./docs/images/banner.png)
 
 # Loci
-A simple, frictionless app to capture anything in the moment.
+
+Loci (pronounced _LOH-kee_) is inspired by the ancient memory palace method — storing ideas in places so they’re easy to recall and connect later. It is a simple, frictionless app to capture anything in the moment. To learn more about it visit our [product vision, features and strategy page](https://github.com/emiliosheinz/loci/wiki/Product-vision,-features,-and-strategy).
 
 ## Quick Start
 
