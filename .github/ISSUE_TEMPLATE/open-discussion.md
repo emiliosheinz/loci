@@ -1,5 +1,5 @@
 ---
-name: Everything Else
+name: Open Discussion
 about: Anything that doesn’t quite fit into a Bug Report or a Feature Request
 title: ''
 labels: ''
