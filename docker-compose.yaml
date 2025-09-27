@@ -44,3 +44,21 @@ services:
     ports:
       - "3000:3000"
 
+  www:
+    container_name: www
+    build:
+      context: .
+      target: dev
+      dockerfile: apps/www/Dockerfile
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+    environment:
+      PORT: "3001"
+      HOST: "0.0.0.0"
+      NODE_ENV: development
+    volumes:
+      - .:/loci
+    ports:
+      - "3001:3001"
+
