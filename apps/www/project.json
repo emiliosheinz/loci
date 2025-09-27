@@ -1,0 +1,10 @@
+{
+  "name": "www",
+  "targets": {
+    "docker:build": {
+      "options": {
+        "file": "apps/www/Dockerfile"
+      }
+    }
+  }
+}

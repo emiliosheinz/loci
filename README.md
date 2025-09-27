@@ -42,6 +42,7 @@ The project is organized as a monorepo using npm workspaces Nx and Docker to man
 ### Apps
 
 - `api`: The backend API built with Node.js and Nest.
+- `www`: The frontend web marketing site built with Next.js and React.
 
 ### Packages
 
