@@ -1,5 +1,4 @@
 services:
-  # This service runs once to install dependencies in the workspace
   setup:
     container_name: setup
     build:
@@ -12,7 +11,6 @@ services:
     command: sh -lc "pnpm install --frozen-lockfile"
     restart: "no"
 
-  # This service provides a persistent workspace for development
   workspace:
     container_name: workspace
     build:
@@ -21,12 +19,13 @@ services:
     depends_on:
       setup:
         condition: service_completed_successfully
+    environment:
+      NX_DAEMON: "true"
     volumes:
       - .:/loci
-    command: sh -lc "exec tail -f /dev/null"
+    entrypoint: ["./workspace-entrypoint.sh"]
     restart: "no"
 
-  # This service runs the API in development mode with hot-reloading
   api:
     container_name: api
     build:
@@ -34,13 +33,13 @@ services:
       target: dev
       dockerfile: apps/api/Dockerfile
     depends_on:
+      workspace:
+          condition: service_started
       setup:
         condition: service_completed_successfully
     environment:
       PORT: "3000"
       NODE_ENV: development
-      TSC_WATCHFILE: "PriorityPollingInterval"
-      TSC_WATCHDIRECTORY: "DynamicPriorityPolling"
     volumes:
       - .:/loci
     ports:

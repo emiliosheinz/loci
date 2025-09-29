@@ -9,8 +9,8 @@ This package provides centralized configuration files that are shared across all
 ## Contents
 
 - **biome.json**: Code formatting and linting rules
-- **jest.config.node.json**: Jest configuration for Node.js projects
-- **tsconfig.node.json**: TypeScript configuration for Node.js applications
+- **jest.config.ts**: Base Jest configuration
+- **tsconfig.json**: Base TypeScript configuration 
 
 ## Usage
 
@@ -29,8 +29,8 @@ This package is referenced as a workspace dependency in other packages:
 Configuration files are exported via package.json exports field:
 
 - `@loci/config/biome`: Biome configuration
-- `@loci/config/jest/*`: Jest configurations
-- `@loci/config/typescript/*`: TypeScript configurations
+- `@loci/config/jest`: Jest configurations
+- `@loci/config/typescript`: TypeScript configurations
 
 ## Example Usage
 
@@ -46,19 +46,20 @@ Configuration files are exported via package.json exports field:
 
 ```json
 {
-  "extends": "@loci/config/typescript/node"
+  "extends": "@loci/config/typescript"
 }
 ```
 
 ### In a Jest configuration
 
-```js
-import baseConfig from "@loci/config/jest/node" with { type: "json" };
+```ts
+import baseConfig from "@loci/config/jest";
 ```
 
 ## Adding New Configurations
 
-1. Add the configuration file to this package
+1. Add the configuration under the `base` folder 
 2. Update the `exports` field in `package.json` 
 3. Reference it in consuming packages or apps
 
+> 💡 TS, JS, and JSON files are automatically bundled and exported. Other file types may require additional handling.
