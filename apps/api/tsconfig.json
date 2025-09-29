@@ -1,3 +1,21 @@
 {
-  "extends": "@loci/config/typescript/node"
+  "extends": "@loci/config/typescript",
+  "compilerOptions": {
+    "declaration": true,
+    "removeComments": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolvePackageJsonExports": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2023",
+    "sourceMap": true,
+    "incremental": true,
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
 }

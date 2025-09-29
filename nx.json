@@ -31,6 +31,42 @@
       "options": {
         "cwd": "."
       }
+    },
+    "build": {
+      "dependsOn": ["^build"]
+    },
+    "start:dev": {
+      "dependsOn": ["^build"]
+    },
+    "lint": {
+      "dependsOn": ["^build"]
+    },
+    "format": {
+      "dependsOn": ["^build"]
+    },
+    "check": {
+      "dependsOn": ["^build"]
+    },
+    "lint:fix": {
+      "dependsOn": ["^build"]
+    },
+    "format:fix": {
+      "dependsOn": ["^build"]
+    },
+    "check:fix": {
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "dependsOn": ["^build"]
+    },
+    "test:watch": {
+      "dependsOn": ["^build"]
+    },
+    "test:cov": {
+      "dependsOn": ["^build"]
+    },
+    "test:e2e": {
+      "dependsOn": ["^build"]
     }
   }
 }
