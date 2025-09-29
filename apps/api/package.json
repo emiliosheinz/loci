@@ -29,11 +29,13 @@
     "@nestjs/common": "11.1.6",
     "@nestjs/core": "11.1.6",
     "@nestjs/platform-express": "11.1.6",
+    "@nestjs/swagger": "11.2.0",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.2"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
+    "@loci/config": "workspace:*",
     "@nestjs/cli": "11.0.10",
     "@nestjs/schematics": "11.0.7",
     "@nestjs/testing": "11.1.6",
@@ -41,7 +43,6 @@
     "@types/jest": "catalog:",
     "@types/node": "catalog:",
     "@types/supertest": "6.0.3",
-    "@loci/config": "workspace:*",
     "globals": "16.4.0",
     "jest": "catalog:",
     "source-map-support": "0.5.21",
