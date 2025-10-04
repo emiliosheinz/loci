@@ -9,7 +9,10 @@ Loci (pronounced _LOH-kee_) is inspired by the ancient memory palace method — 
 The entire development workflow should happen within Docker containers to ensure consistency across environments. 
 
 ```bash
-# Start development environment
+# Setup your environment
+./scripts/setup-env.sh
+
+# Start development 
 docker compose up -d
 ```
 
