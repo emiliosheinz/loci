@@ -1,58 +1,89 @@
-# Git
-.git
-.gitignore
+# VCS & repo metadata 
+.git/
+**/.git/
+**/.gitattributes
+**/.gitmodules
+.github/
 
-# Dependencies
-node_modules
-.pnpm-store
+# Compiled output & Dependencies
+**/dist/
+**/out/
+**/build/
+**/.next/
+**/.pnp
+**/.pnp.*
+**/.yarn/
+**/node_modules/
 
-# Build outputs
-dist
-build
-coverage
-
-# Nx cache
-.nx
-
-# IDE
-.vscode
-.idea
-*.swp
-*.swo
-.DS_Store
-
-# Environment files
-.env
-.env.local
-.env.*.local
+# Tests
+**/coverage/
+**/.nyc_output/
+cypress/videos/
+cypress/screenshots/
+playwright-report/
+test-results/
 
 # Logs
-*.log
-npm-debug.log*
-pnpm-debug.log*
+**/logs/
+**/*.log
+**/npm-debug.log*
+**/pnpm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/lerna-debug.log*
 
-# Testing
-coverage
-.nyc_output
+# Environment variable files
+**/.env
+**/.env.*
+**/*.env
+.envrc
+*.pem
+*.key
+*.crt
 
-# Documentation
-docs
-.adr-dir
+# Temporary stuff
+**/.temp/
+**/.tmp/
 
-# Docker
-Dockerfile*
-docker-compose*.yml
-docker-compose*.yaml
-.dockerignore
+# Runtime data
+**/pids/
+**/*.pid
+**/*.seed
+**/*.pid.lock
 
-# CI/CD
-.github
+# IDEs and editors
+**/.idea/
+**/.project
+**/.classpath
+**/.c9/
+**/*.launch
+**/.settings/
+**/*.sublime-workspace
 
-# Temporary files
-*.tmp
-.temp
-tmp
-temp
+# VSCode
+.vscode/
 
-# Claude
-.claude
+# OS
+**/.DS_Store
+**/Thumbs.db
+
+# Vercel
+**/.vercel/
+
+# Typescript
+**/*.tsbuildinfo
+**/next-env.d.ts
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+**/report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Tool & build caches 
+**/.cache/
+**/.turbo/
+**/.vite/
+**/.parcel-cache/
+.nx/
+
+# Docs 
+docs/
+.adr-dir/
