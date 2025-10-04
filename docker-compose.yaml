@@ -36,8 +36,6 @@ services:
       setup:
         condition: service_completed_successfully
     environment:
-      PORT: "3000"
-      HOST: "0.0.0.0"
       NODE_ENV: development
     volumes:
       - .:/loci
@@ -53,10 +51,6 @@ services:
     depends_on:
       setup:
         condition: service_completed_successfully
-    environment:
-      PORT: "3001"
-      HOST: "0.0.0.0"
-      NODE_ENV: development
     volumes:
       - .:/loci
     ports:
