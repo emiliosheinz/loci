@@ -1,7 +1,7 @@
 import type { Config } from "jest";
 
 const config: Config = {
-  rootDir: "src",
+  rootDir: "./",
   preset: "ts-jest",
   testEnvironment: "node",
   clearMocks: true,
@@ -12,9 +12,9 @@ const config: Config = {
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json"],
   testPathIgnorePatterns: ["/node_modules/", "/dist/", "/coverage/"],
   collectCoverageFrom: ["**/*.{t,j}s?(x)"],
-  coverageDirectory: "../coverage",
+  coverageDirectory: "coverage",
   moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/$1",
+    "^@/(.*)$": "<rootDir>/src/$1",
   },
   transform: {
     "^.+\\.(t|j)sx?$": "ts-jest",
