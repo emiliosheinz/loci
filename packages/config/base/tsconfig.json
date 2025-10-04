@@ -15,6 +15,6 @@
     "noUnusedParameters": true,
     "forceConsistentCasingInFileNames": true,
     "exactOptionalPropertyTypes": true,
-    "allowJs": false,
+    "allowJs": false
 	}
 }
