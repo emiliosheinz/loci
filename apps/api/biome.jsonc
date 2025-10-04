@@ -1,5 +1,6 @@
 {
   "extends": ["@loci/config/biome"],
+  "root": false,
   "linter": {
     "rules": {
       "style": {
