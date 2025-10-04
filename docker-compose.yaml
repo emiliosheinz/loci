@@ -8,7 +8,7 @@ services:
       - .:/loci
     environment:
       CI: "true" 
-    command: sh -lc "pnpm install --frozen-lockfile"
+    command: sh -lc "pnpm install"
     restart: "no"
 
   workspace:
@@ -19,11 +19,9 @@ services:
     depends_on:
       setup:
         condition: service_completed_successfully
-    environment:
-      NX_DAEMON: "true"
     volumes:
       - .:/loci
-    entrypoint: ["./workspace-entrypoint.sh"]
+    command: sh -c "tail -f /dev/null"
     restart: "no"
 
   api:
@@ -39,6 +37,7 @@ services:
         condition: service_completed_successfully
     environment:
       PORT: "3000"
+      HOST: "0.0.0.0"
       NODE_ENV: development
     volumes:
       - .:/loci
