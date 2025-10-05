@@ -1,20 +1,36 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme-switcher";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const title = "Loci";
+const description =
+  "A simple, frictionless app to capture anything in the moment";
 
 export const metadata: Metadata = {
-  title: "Loci",
-  description: "A simple, frictionless app to capture anything in the moment",
+  title,
+  description,
+  icons: "/favicon.svg",
+  openGraph: {
+    title,
+    type: "website",
+    siteName: title,
+    locale: "en-US",
+    description: description,
+    images: "/og-banner.png",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
+  twitter: {
+    title,
+    images: "/og-banner.png",
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({
@@ -23,11 +39,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html suppressHydrationWarning lang="en">
+      <body className="antialiased font-sans">
+        <ThemeProvider
+          attribute={["class", "data-theme"]}
+          defaultTheme="system"
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
