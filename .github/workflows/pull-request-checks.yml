@@ -156,6 +156,9 @@ jobs:
   e2e-tests:
     name: E2E Tests
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [www]
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -165,14 +168,14 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Run WWW E2E Tests
-        run: docker compose -f docker-compose.yaml --profile e2e up --build --exit-code-from www-e2e www-e2e
-      - name: Upload WWW Playwright results
+      - name: Run E2E Tests for ${{ matrix.app }}
+        run: docker compose -f docker-compose.prod.yaml --profile e2e up --exit-code-from ${{ matrix.app }}-e2e ${{ matrix.app }}-e2e
+      - name: Upload Playwright results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-test-results
-          path: apps/www/test-results
+          name: playwright-test-results-${{ matrix.app }}
+          path: apps/${{ matrix.app }}/test-results
           if-no-files-found: ignore
       - name: Teardown
         if: always()
