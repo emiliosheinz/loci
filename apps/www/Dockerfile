@@ -25,19 +25,22 @@ RUN pnpm nx build www
 
 # -------- Production --------
 FROM node:24-alpine AS prod 
-ENV NODE_ENV=production
+
 WORKDIR /loci
+
+RUN apk add --no-cache curl
 
 COPY --from=builder /loci/apps/www/.next/standalone ./
 COPY --from=builder /loci/apps/www/public ./apps/www/public
 COPY --from=builder /loci/apps/www/.next/static ./apps/www/.next/static
 
-EXPOSE 3001
+EXPOSE ${PORT}
+
 CMD ["node", "apps/www/server.js"]
 
 
 
-# -------- Dev (with hot reload) --------
+# -------- Development (with hot reload) --------
 FROM node:24-alpine AS dev
 
 RUN corepack enable pnpm && corepack install -g pnpm@10.14.0

@@ -1,0 +1,40 @@
+# syntax=docker/dockerfile:1.18-labs
+# -------- Production --------
+FROM node:24-bookworm AS prod
+
+RUN corepack enable pnpm && corepack install -g pnpm@10.14.0
+
+WORKDIR /loci
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json ./
+COPY apps/www/package.json apps/www/
+COPY --parents packages/*/package.json ./
+
+RUN pnpm install --frozen-lockfile
+
+RUN pnpm -F www exec playwright install --with-deps chromium firefox webkit
+
+# Copy in only what the API needs
+COPY apps/www apps/www
+COPY packages packages
+
+CMD ["pnpm", "nx", "test:e2e", "www"]
+
+
+
+# -------- Development --------
+FROM node:24-bookworm AS dev
+
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+
+RUN corepack enable pnpm && corepack install -g pnpm@10.14.0
+
+RUN npm i -g playwright@1.56.0 \
+ && playwright --version \
+ && playwright install --with-deps chromium firefox webkit
+
+RUN ls -la /ms-playwright
+
+WORKDIR /loci
+
+CMD ["pnpm", "nx", "test:e2e", "www"]
