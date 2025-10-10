@@ -1,5 +1,4 @@
 import { expect, test } from "@playwright/test";
-import { waitFor } from "@testing-library/react";
 
 const navigationLinks = [
   { name: "Problem", hash: "#problem" },

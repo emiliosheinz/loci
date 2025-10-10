@@ -59,7 +59,12 @@ export function OpenSource() {
                   </div>
                 ))}
               </div>
-              <Button asChild size="lg" variant="outline" className="self-center lg:self-start">
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="self-center lg:self-start"
+              >
                 <a
                   href={GITHUB_CONTRIBUTING_URL}
                   className="flex items-center gap-2"
