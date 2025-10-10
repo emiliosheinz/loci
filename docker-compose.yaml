@@ -23,6 +23,8 @@ services:
       - .:/loci
     command: sh -c "tail -f /dev/null"
     restart: "no"
+    networks:
+      - loci
 
   api:
     container_name: api
@@ -41,6 +43,9 @@ services:
       - .:/loci
     ports:
       - "3000:3000"
+    networks:
+      - loci
+
 
   www:
     container_name: www
@@ -55,4 +60,30 @@ services:
       - .:/loci
     ports:
       - "3001:3001"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:3001/health > /dev/null || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - loci
+  www-e2e:
+    profiles: ["test"]
+    container_name: www-e2e
+    build:
+      context: .
+      target: e2e
+      dockerfile: apps/www/Dockerfile
+    depends_on:
+      www:
+        condition: service_healthy
+    ports:
+      - "3002:3002"
+    networks:
+      - loci
+
+networks:
+  loci:
+    name: loci
+    driver: bridge
 
