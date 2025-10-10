@@ -8,6 +8,10 @@ const config: Config = {
   ...baseConfig,
   testEnvironment: "jsdom",
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+  testPathIgnorePatterns: [
+    ...(baseConfig.testPathIgnorePatterns ?? []),
+    "/e2e-tests/",
+  ],
 };
 
 export default createJestConfig(config);
