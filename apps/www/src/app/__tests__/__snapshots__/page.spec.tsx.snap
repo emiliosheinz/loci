@@ -12,6 +12,7 @@ exports[`Home Page renders successfully 1`] = `
         class="container mx-auto flex h-16 items-center justify-between"
       >
         <a
+          aria-label="Loci home"
           class="flex items-center gap-2 text-lg font-semibold"
           href="/"
         >
@@ -33,6 +34,7 @@ exports[`Home Page renders successfully 1`] = `
           </span>
         </a>
         <nav
+          aria-label="Primary"
           class="hidden md:flex items-center gap-8 text-sm"
         >
           <a
@@ -60,9 +62,11 @@ exports[`Home Page renders successfully 1`] = `
           <button
             aria-expanded="false"
             aria-haspopup="menu"
+            aria-label="Toggle theme"
             class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-9 cursor-pointer"
             data-slot="button"
             data-state="closed"
+            data-testid="theme-toggle"
             id="radix-«r0»"
             type="button"
           >
@@ -1153,6 +1157,7 @@ exports[`Home Page renders successfully 1`] = `
             class="col-span-1 max-w-sm"
           >
             <a
+              aria-label="Loci home"
               class="flex items-center gap-2 text-lg font-semibold"
               href="/"
             >
@@ -1188,6 +1193,7 @@ exports[`Home Page renders successfully 1`] = `
               Resources
             </h3>
             <ul
+              aria-label="Resources"
               class="space-y-2 text-sm"
             >
               <li>
@@ -1271,9 +1277,16 @@ exports[`Home Page renders successfully 1`] = `
                   d="M9 18c-4.51 2-5-2-7-2"
                 />
               </svg>
+              <span
+                class="sr-only"
+              >
+                GitHub
+              </span>
             </a>
           </div>
         </div>
       </div>
     </footer>
   </div>
+</div>
+`;
