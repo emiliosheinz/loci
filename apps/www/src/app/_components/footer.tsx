@@ -16,6 +16,7 @@ export function Footer() {
             <a
               href="/"
               className="flex items-center gap-2 text-lg font-semibold"
+              aria-label="Loci home"
             >
               <Image
                 alt="Loci logo"
@@ -33,7 +34,7 @@ export function Footer() {
           </div>
           <div className="col-span-1">
             <h3 className="font-semibold mb-4">Resources</h3>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-2 text-sm" aria-label="Resources">
               <li>
                 <a
                   href={GITHUB_PROJECT_URL}
@@ -88,7 +89,8 @@ export function Footer() {
               href="https://github.com/emiliosheinz/loci"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
-              <Github className="h-5 w-5" />
+              <Github aria-hidden className="h-5 w-5" />
+              <span className="sr-only">GitHub</span>
             </a>
           </div>
         </div>

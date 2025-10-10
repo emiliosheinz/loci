@@ -51,8 +51,33 @@ services:
     depends_on:
       setup:
         condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://$${HOSTNAME}:$${PORT}/health || exit 1"]
+      start_period: 10s
+      interval: 5s
+      timeout: 3s
+      retries: 10
     volumes:
       - .:/loci
     ports:
       - "3001:3001"
+  www-e2e:
+    container_name: www-e2e
+    profiles: ["e2e"]
+    build:
+      context: .
+      target: dev
+      dockerfile: apps/www/Dockerfile.e2e
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+      www:
+        condition: service_healthy
+    volumes:
+      - .:/loci
+
+networks:
+  default:
+    name: loci
+    driver: bridge
 

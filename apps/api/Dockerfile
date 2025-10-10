@@ -28,12 +28,15 @@ RUN pnpm -F api deploy --prod /out
 
 # -------- Production --------
 FROM node:24-alpine AS prod 
-ENV NODE_ENV=production
+
 WORKDIR /loci
+
+RUN apk add --no-cache curl
 
 COPY --from=builder /out ./
 
-EXPOSE 3000
+EXPOSE ${PORT}
+
 CMD ["node", "dist/main"]
 
 
