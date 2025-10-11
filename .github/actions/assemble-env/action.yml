@@ -1,5 +1,5 @@
 name: "Assemble .env from prefixed env"
-description: "Parses apps/<app>/.env.example and writes apps/<app>/.env using ${PREFIX_*} env vars"
+description: "Parses apps/<app>/.env.example and writes apps/<app>/.env for each provided app using ${PREFIX_*} env vars"
 runs:
   using: "composite"
   steps:
@@ -7,11 +7,11 @@ runs:
       shell: sh
       run: |
         chmod +x "${{ github.action_path }}/assemble-env.sh"
-        "${{ github.action_path }}/assemble-env.sh" "${{ inputs.app }}"
+        for app in $(echo "${{ inputs.apps }}" | tr ',' ' '); do [ -n "$app" ] && "${{ github.action_path }}/assemble-env.sh" "$app"; done
 inputs:
-  app:
+  apps:
     required: true
-    description: "App name (e.g., www, api)"
+    description: "App names (comma separated, e.g. www,api)"
 branding:
   icon: package
   color: gray-dark

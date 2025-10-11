@@ -172,7 +172,7 @@ jobs:
       - name: Assemble environment variables
         uses: ./.github/actions/assemble-env
         with:
-          app: www
+          apps: www
         env:
           # WWW 
           WWW_PORT: ${{ vars.WWW_PORT }}
