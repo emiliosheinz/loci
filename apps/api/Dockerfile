@@ -35,8 +35,6 @@ RUN apk add --no-cache curl
 
 COPY --from=builder /out ./
 
-EXPOSE ${PORT}
-
 CMD ["node", "dist/main"]
 
 

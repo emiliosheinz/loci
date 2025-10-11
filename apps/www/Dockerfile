@@ -34,8 +34,6 @@ COPY --from=builder /loci/apps/www/.next/standalone ./
 COPY --from=builder /loci/apps/www/public ./apps/www/public
 COPY --from=builder /loci/apps/www/.next/static ./apps/www/.next/static
 
-EXPOSE ${PORT}
-
 CMD ["node", "apps/www/server.js"]
 
 
