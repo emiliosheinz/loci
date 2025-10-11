@@ -26,6 +26,19 @@ docker compose exec workspace sh
 docker compose exec workspace <command>
 ```
 
+### E2E Tests
+
+E2E tests are used to validate the system as a whole, ensuring all applications work correctly together inside Docker. They are not started automatically with the development environment.
+
+To run E2E tests, you must explicitly start the E2E services defined in `docker-compose.yaml`.
+
+Each application has its own E2E service (e.g., www-e2e), which spins up the required dependencies and runs tests and downstream services.
+
+```bash
+# Run the E2E service for the www app
+docker compose --profile e2e up --exit-code-from www-e2e www-e2e
+```
+
 ### Using the loci helper
 
 For convenience, the repo already includes a helper script at bin/loci. It runs commands inside the workspace container so you don’t have to type docker exec every time:
