@@ -35,8 +35,6 @@ services:
           condition: service_started
       setup:
         condition: service_completed_successfully
-    environment:
-      NODE_ENV: development
     volumes:
       - .:/loci
     ports:
@@ -52,7 +50,7 @@ services:
       setup:
         condition: service_completed_successfully
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://$${HOSTNAME}:$${PORT}/health || exit 1"]
+      test: ["CMD-SHELL", "curl -fsS http://localhost:3001/health || exit 1"]
       start_period: 10s
       interval: 5s
       timeout: 3s

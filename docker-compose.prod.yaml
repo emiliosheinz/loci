@@ -32,6 +32,8 @@ services:
     profiles: ["e2e"]
     env_file:
       - ./apps/www/.env
+    environment:
+      CI: "true"
     build:
       context: .
       target: prod
