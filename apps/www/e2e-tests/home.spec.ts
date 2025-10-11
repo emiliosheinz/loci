@@ -73,6 +73,14 @@ test.describe("Home Page", () => {
   });
 
   test.describe("Internal navigation", () => {
+    test.beforeAll(() => {
+      const isMobile = test.info().project.use.isMobile;
+
+      if (isMobile) {
+        test.skip(true, "Internal header navigation is hidden on mobile");
+      }
+    });
+
     for (const link of navigationLinks) {
       test(`navigates to ${link.name} section`, async ({ page }) => {
         await page.goto("/");

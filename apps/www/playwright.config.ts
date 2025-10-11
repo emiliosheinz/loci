@@ -5,7 +5,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  reporter: process.env.CI ? "dot" : "list",
+  reporter: "list",
   use: {
     baseURL: `http://www:${process.env.PORT ?? 3000}`,
     trace: "on-first-retry",
