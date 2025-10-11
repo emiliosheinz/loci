@@ -93,6 +93,7 @@ jobs:
         run: |
           docker build -f Dockerfile.loci -t loci-workspace .
 
+
       - name: Install dependencies
         run: |
           docker run --rm \
@@ -168,8 +169,18 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Assemble www env
+        if: matrix.app == 'www'
+        uses: ./.github/actions/assemble-env
+        with:
+          app: www
+        env:
+          WWW_PORT: ${{ vars.WWW_PORT }}
+          WWW_HOST: ${{ vars.WWW_HOST }}
+
       - name: Run E2E Tests for ${{ matrix.app }}
         run: docker compose -f docker-compose.prod.yaml --profile e2e up --exit-code-from ${{ matrix.app }}-e2e ${{ matrix.app }}-e2e
+
       - name: Upload Playwright results
         if: always()
         uses: actions/upload-artifact@v4
@@ -177,6 +188,7 @@ jobs:
           name: playwright-test-results-${{ matrix.app }}
           path: apps/${{ matrix.app }}/test-results
           if-no-files-found: ignore
+
       - name: Teardown
         if: always()
         run: docker compose -f docker-compose.prod.yaml down -v || true

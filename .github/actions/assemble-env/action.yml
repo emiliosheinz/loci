@@ -1,0 +1,17 @@
+name: "Assemble .env from prefixed env"
+description: "Parses apps/<app>/.env.example and writes apps/<app>/.env using ${PREFIX_*} env vars"
+runs:
+  using: "composite"
+  steps:
+    - name: Assemble .env
+      shell: sh
+      run: |
+        chmod +x "${{ github.action_path }}/assemble-env.sh"
+        "${{ github.action_path }}/assemble-env.sh" "${{ inputs.app }}"
+inputs:
+  app:
+    required: true
+    description: "App name (e.g., www, api)"
+branding:
+  icon: package
+  color: gray-dark
