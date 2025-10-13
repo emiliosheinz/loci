@@ -5,4 +5,4 @@ export const GITHUB_RELEASES_URL =
   "https://github.com/emiliosheinz/loci/releases";
 export const GITHUB_WIKI_URL = "https://github.com/emiliosheinz/loci/wiki";
 export const GITHUB_CONTRIBUTING_URL =
-  "https://github.com/emiliosheinz/loci?tab=contributing-ov-file";
+  "https://github.com/emiliosheinz/loci?tab=contributing-ov-file#contributing-to-loci";

@@ -17,7 +17,7 @@ const externalLinks = [
   { label: "Wiki", href: "https://github.com/emiliosheinz/loci/wiki" },
   {
     label: "Contribute on GitHub",
-    href: "https://github.com/emiliosheinz/loci?tab=contributing-ov-file",
+    href: "https://github.com/emiliosheinz/loci?tab=contributing-ov-file#contributing-to-loci",
   },
 ];
 
