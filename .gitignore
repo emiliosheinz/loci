@@ -42,6 +42,7 @@
 # Temporary stuff
 **/.temp
 **/.tmp
+**/tmp
 
 # Runtime data
 **/pids

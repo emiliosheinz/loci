@@ -6,5 +6,10 @@
         "file": "apps/api/Dockerfile"
       }
     }
+  },
+  "release": {
+    "docker": {
+      "repositoryName": "emiliosheinz/loci-api"
+    }
   }
 }

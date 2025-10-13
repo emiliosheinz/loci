@@ -13,6 +13,44 @@
       }
     }
   ],
+  "release": {
+    "projectChangelogs": true,
+    "version": {
+      "conventionalCommits": true
+    },
+    "releaseTagPattern": "{projectName}@{version}",
+    "changelog": {
+      "projectChangelogs": {
+        "createRelease": "github",
+        "renderOptions": {
+          "authors": true,
+          "applyUsernameToAuthors": true,
+          "commitReferences": true,
+          "versionTitleDate": true
+        }
+      }
+    },
+    "groups": {
+      "apps": {
+        "projects": ["apps/*"],
+        "projectsRelationship": "independent",
+        "docker": {
+          "registryUrl": "ghcr.io",
+          "groupPreVersionCommand": "pnpm nx run-many -t docker:build -- --target prod",
+          "versionSchemes": {
+            "semVer": "{versionActionsVersion}"
+          }
+        }
+      },
+      "packages": {
+        "projects": ["packages/*"],
+        "projectsRelationship": "independent",
+        "version": {
+          "groupPreVersionCommand": "pnpm nx run-many -t build -p packages/*"
+        }
+      }
+    }
+  },
   "targetDefaults": {
     "docker:build": {
       "options": {
@@ -20,69 +58,45 @@
       }
     },
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
+      "dependsOn": ["^build"],
       "cache": true
     },
     "start:dev": {
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"]
     },
     "lint": {
-      "dependsOn": [
-        "^build"
-      ],
+      "dependsOn": ["^build"],
       "cache": true
     },
     "format": {
-      "dependsOn": [
-        "^build"
-      ],
+      "dependsOn": ["^build"],
       "cache": true
     },
     "check": {
-      "dependsOn": [
-        "^build"
-      ],
+      "dependsOn": ["^build"],
       "cache": true
     },
     "lint:fix": {
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"]
     },
     "format:fix": {
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"]
     },
     "check:fix": {
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"]
     },
     "test": {
-      "dependsOn": [
-        "^build"
-      ],
+      "dependsOn": ["^build"],
       "cache": true
     },
     "test:watch": {
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"]
     },
     "test:cov": {
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"]
     },
     "test:e2e": {
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"]
     }
   },
   "cacheDirectory": ".nx/cache",
