@@ -1,6 +1,18 @@
-import type { Metadata } from "next";
 import "./globals.css";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono as GeistMono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-switcher";
+
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+  display: "swap",
+});
+const geistMono = GeistMono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+  display: "swap",
+});
 
 const title = "Loci";
 const description =
@@ -39,8 +51,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html suppressHydrationWarning lang="en">
-      <body className="antialiased font-sans">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${geist.variable} ${geistMono.variable}`}
+    >
+      <body className="font-sans antialiased">
         <ThemeProvider
           attribute={["class", "data-theme"]}
           defaultTheme="system"
