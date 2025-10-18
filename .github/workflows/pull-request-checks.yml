@@ -16,33 +16,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build workspace image
-        run: |
-          docker build -f Dockerfile.loci -t loci-workspace .
-
-      - name: Install dependencies
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}:/loci \
-            loci-workspace \
-            sh -c "pnpm install --frozen-lockfile"
+      - name: Setup Node dependencies
+        uses: ./.github/actions/setup-node-dependencies
 
       - name: Run linting
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}:/loci \
-            loci-workspace \
-            sh -c "pnpm nx affected --target=lint"
+        run: pnpm nx affected -t lint
 
       - name: Run format check
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}:/loci \
-            loci-workspace \
-            sh -c "pnpm nx affected --target=format"
+        run: pnpm nx affected -t format
 
   test:
     name: Run Tests
@@ -54,27 +35,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build workspace image
-        run: |
-          docker build -f Dockerfile.loci -t loci-workspace .
-
-      - name: Install dependencies
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}:/loci \
-            loci-workspace \
-            sh -c "pnpm install --frozen-lockfile"
+      - name: Setup Node dependencies
+        uses: ./.github/actions/setup-node-dependencies
 
       - name: Run tests
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}:/loci \
-            -e CI=true \
-            loci-workspace \
-            sh -c "pnpm nx affected --target=test"
+        run: pnpm nx affected -t test
 
   build:
     name: Build Verification
@@ -86,27 +51,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Setup Node dependencies
+        uses: ./.github/actions/setup-node-dependencies
 
-      - name: Build workspace image
-        run: |
-          docker build -f Dockerfile.loci -t loci-workspace .
-
-
-      - name: Install dependencies
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}:/loci \
-            loci-workspace \
-            sh -c "pnpm install --frozen-lockfile"
-
-      - name: Build all projects
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}:/loci \
-            loci-workspace \
-            sh -c "pnpm nx affected --target=build"
+      - name: Build projects
+        run: pnpm nx affected -t build
     
   docker-build:
     name: Docker Build Verification
@@ -120,19 +69,8 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.14.0
-
-      - name: setup Node.js
-        uses: actions/setup-node@v5
-        with:
-          node-version: 24
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Setup Node dependencies
+        uses: ./.github/actions/setup-node-dependencies
 
       - name: Build all Docker images
         run: pnpm nx affected --target docker:build -- --target prod
