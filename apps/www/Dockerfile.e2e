@@ -6,7 +6,7 @@ RUN corepack enable pnpm && corepack install -g pnpm@10.14.0
 
 WORKDIR /loci
 
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
 COPY apps/www/package.json apps/www/
 COPY --parents packages/*/package.json ./
 
@@ -18,7 +18,7 @@ RUN pnpm -F www exec playwright install --with-deps chromium firefox webkit
 COPY apps/www apps/www
 COPY packages packages
 
-CMD ["pnpm", "nx", "test:e2e", "www"]
+CMD ["pnpm", "turbo", "test:e2e", "--filter=www"]
 
 
 
@@ -37,4 +37,4 @@ RUN ls -la /ms-playwright
 
 WORKDIR /loci
 
-CMD ["pnpm", "nx", "test:e2e", "www"]
+CMD ["pnpm", "turbo", "test:e2e", "--filter=www"]

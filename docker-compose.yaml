@@ -6,8 +6,6 @@ services:
       dockerfile: Dockerfile.loci
     volumes:
       - .:/loci
-    environment:
-      CI: "true" 
     command: sh -lc "pnpm install"
     restart: "no"
 
@@ -30,6 +28,8 @@ services:
       context: .
       target: dev
       dockerfile: apps/api/Dockerfile
+    env_file:
+      - ./apps/api/.env
     depends_on:
       workspace:
           condition: service_started
@@ -46,11 +46,13 @@ services:
       context: .
       target: dev
       dockerfile: apps/www/Dockerfile
+    env_file:
+      - ./apps/www/.env
     depends_on:
       setup:
         condition: service_completed_successfully
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://localhost:3001/health || exit 1"]
+      test: ["CMD-SHELL", "curl -fsS http://$${HOSTNAME}:$${PORT}/health || exit 1"]
       start_period: 10s
       interval: 5s
       timeout: 3s
@@ -59,6 +61,7 @@ services:
       - .:/loci
     ports:
       - "3001:3001"
+
   www-e2e:
     container_name: www-e2e
     profiles: ["e2e"]

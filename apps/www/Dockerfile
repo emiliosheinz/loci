@@ -7,7 +7,7 @@ RUN corepack enable pnpm && corepack install -g pnpm@10.14.0
 WORKDIR /loci
 
 # Copy manifests 
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
 COPY apps/www/package.json apps/www/
 COPY --parents packages/*/package.json ./
 
@@ -19,7 +19,7 @@ COPY apps/www apps/www
 COPY packages packages
 
 # Build the app 
-RUN pnpm nx build www 
+RUN pnpm turbo build --filter=www 
 
 
 
@@ -47,4 +47,4 @@ RUN corepack enable pnpm && corepack install -g pnpm@10.14.0
 
 WORKDIR /loci
 
-CMD ["pnpm", "nx", "start:dev", "www"]
+CMD ["pnpm", "turbo", "start:dev", "--filter=www"]
