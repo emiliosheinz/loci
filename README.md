@@ -45,15 +45,15 @@ For convenience, the repo already includes a helper script at bin/loci. It runs 
 
 ```bash
 bin/loci pnpm install
-bin/loci pnpm nx test api
-bin/loci pnpm nx run-many -t check 
+bin/loci pnpm turbo test --filter=api
+bin/loci pnpm turbo check
 ```
 
 > 🚨 Even though you can run commands on your host machine, it's highly recommended to always use the Docker container to avoid environment discrepancies.
 
 ## Project structure
 
-The project is organized as a monorepo using npm workspaces Nx and Docker to manage multiple applications and shared packages.
+The project is organized as a monorepo using pnpm workspaces, Turborepo and Docker to manage multiple applications and shared packages.
 
 ### Apps
 

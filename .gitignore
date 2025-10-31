@@ -77,6 +77,9 @@
 **/*.tsbuildinfo
 **/next-env.d.ts
 
+# Turbo
+**/.turbo/
+
 # NX
 **/.nx/
 

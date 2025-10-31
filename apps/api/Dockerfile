@@ -7,7 +7,7 @@ RUN corepack enable pnpm && corepack install -g pnpm@10.14.0
 WORKDIR /loci
 
 # Copy manifests 
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
 COPY apps/api/package.json apps/api/
 COPY --parents packages/*/package.json ./
 
@@ -19,7 +19,7 @@ COPY apps/api apps/api
 COPY packages packages
 
 # Build the api (outputs to apps/api/dist)
-RUN pnpm nx build api
+RUN pnpm turbo build --filter=api
 
 # Prune to runtime-only (dist + prod deps)
 RUN pnpm -F api deploy --prod /out
@@ -48,4 +48,4 @@ RUN corepack enable pnpm && corepack install -g pnpm@10.14.0
 
 WORKDIR /loci
 
-CMD ["pnpm", "nx", "start:dev", "api"]
+CMD ["pnpm", "turbo", "start:dev", "--filter=api"]
