@@ -1,24 +1,18 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "workspaceLayout": {
-    "appsDir": "apps",
-    "libsDir": "packages"
-  },
-  "plugins": [
-    {
-      "plugin": "@nx/docker",
-      "options": {
-        "buildTarget": "docker:build",
-        "runTarget": "docker:run"
-      }
-    }
-  ],
   "release": {
     "projectChangelogs": true,
+    "projectsRelationship": "independent",
+    "projects": ["apps/*", "packages/*"],
+    "git": {
+      "commitMessage": "chore(release): publish new version [skip ci]"
+    },
     "version": {
       "conventionalCommits": true
     },
-    "releaseTagPattern": "{projectName}@{version}",
+    "releaseTag": {
+      "pattern": "{projectName}@{version}"
+    },
     "changelog": {
       "projectChangelogs": {
         "createRelease": "github",
@@ -29,76 +23,6 @@
           "versionTitleDate": true
         }
       }
-    },
-    "groups": {
-      "apps": {
-        "projects": ["apps/*"],
-        "projectsRelationship": "independent",
-        "docker": {
-          "registryUrl": "ghcr.io",
-          "groupPreVersionCommand": "pnpm nx run-many -t docker:build -- --target prod",
-          "versionSchemes": {
-            "semVer": "{versionActionsVersion}"
-          }
-        }
-      },
-      "packages": {
-        "projects": ["packages/*"],
-        "projectsRelationship": "independent",
-        "version": {
-          "groupPreVersionCommand": "pnpm nx run-many -t build -p packages/*"
-        }
-      }
     }
-  },
-  "targetDefaults": {
-    "docker:build": {
-      "options": {
-        "cwd": "."
-      }
-    },
-    "build": {
-      "dependsOn": ["^build"],
-      "cache": true
-    },
-    "start:dev": {
-      "dependsOn": ["^build"]
-    },
-    "lint": {
-      "dependsOn": ["^build"],
-      "cache": true
-    },
-    "format": {
-      "dependsOn": ["^build"],
-      "cache": true
-    },
-    "check": {
-      "dependsOn": ["^build"],
-      "cache": true
-    },
-    "lint:fix": {
-      "dependsOn": ["^build"]
-    },
-    "format:fix": {
-      "dependsOn": ["^build"]
-    },
-    "check:fix": {
-      "dependsOn": ["^build"]
-    },
-    "test": {
-      "dependsOn": ["^build"],
-      "cache": true
-    },
-    "test:watch": {
-      "dependsOn": ["^build"]
-    },
-    "test:cov": {
-      "dependsOn": ["^build"]
-    },
-    "test:e2e": {
-      "dependsOn": ["^build"]
-    }
-  },
-  "cacheDirectory": ".nx/cache",
-  "defaultBase": "origin/main"
+  }
 }

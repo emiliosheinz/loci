@@ -20,10 +20,10 @@ jobs:
         uses: ./.github/actions/setup-node-dependencies
 
       - name: Run linting
-        run: pnpm nx affected -t lint
+        run: pnpm turbo lint --affected
 
       - name: Run format check
-        run: pnpm nx affected -t format
+        run: pnpm turbo format --affected
 
   test:
     name: Run Tests
@@ -39,7 +39,7 @@ jobs:
         uses: ./.github/actions/setup-node-dependencies
 
       - name: Run tests
-        run: pnpm nx affected -t test
+        run: pnpm turbo test --affected
 
   build:
     name: Build Verification
@@ -55,7 +55,7 @@ jobs:
         uses: ./.github/actions/setup-node-dependencies
 
       - name: Build projects
-        run: pnpm nx affected -t build
+        run: pnpm turbo build --affected
     
   docker-build:
     name: Docker Build Verification
@@ -73,7 +73,7 @@ jobs:
         uses: ./.github/actions/setup-node-dependencies
 
       - name: Build all Docker images
-        run: pnpm nx affected --target docker:build -- --target prod
+        run: pnpm turbo docker:build --affected
 
   conventional-commits:
     name: Validate Conventional Commits
