@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "nest build",
-    "start:dev": "nest start --watch",
+    "start:dev": "nest start",
     "lint": "biome lint .",
     "format": "biome format .",
     "check": "biome check .",
@@ -19,10 +19,12 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "docker:build": "docker build -f Dockerfile --target prod -t emiliosheinz/loci-api:latest $(git rev-parse --show-toplevel)"
   },
   "dependencies": {
     "@nestjs/common": "11.1.6",
+    "@nestjs/config": "4.0.2",
     "@nestjs/core": "11.1.6",
     "@nestjs/platform-express": "11.1.6",
     "reflect-metadata": "0.2.2",
@@ -30,6 +32,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
+    "@loci/config": "workspace:*",
     "@nestjs/cli": "11.0.10",
     "@nestjs/schematics": "11.0.7",
     "@nestjs/testing": "11.1.6",
@@ -37,7 +40,6 @@
     "@types/jest": "catalog:",
     "@types/node": "catalog:",
     "@types/supertest": "6.0.3",
-    "@loci/config": "workspace:*",
     "globals": "16.4.0",
     "jest": "catalog:",
     "source-map-support": "0.5.21",
