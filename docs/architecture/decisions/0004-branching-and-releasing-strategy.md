@@ -6,7 +6,7 @@ Date: 2025-10-23
 
 Accepted
 
-Superceded by [6. Monorepo Build TITLE Release Strategy Update](0006-monorepo-build-release-strategy-update.md)
+Superceded by [6. Monorepo Build Release Strategy Update](0006-monorepo-build-release-strategy-update.md)
 
 ## Context
 
