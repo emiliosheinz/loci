@@ -1,4 +1,4 @@
-# 6. Monorepo Build TITLE Release Strategy Update
+# 6. Monorepo Build Release Strategy Update
 
 Date: 2025-11-02
 

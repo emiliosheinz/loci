@@ -62,7 +62,7 @@ jobs:
             exit 0
           fi
           echo "Publishing $PACKAGE_NAME version ${{ steps.tag.outputs.version }}"
-          pnpm turbo build --filter="$PACKAGE_NAME" || true
+          pnpm turbo build --filter="$PACKAGE_NAME"
           npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
           pnpm publish --filter "$PACKAGE_NAME" --access public --no-git-checks
 
