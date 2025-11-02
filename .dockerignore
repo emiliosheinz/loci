@@ -82,6 +82,7 @@ test-results/
 **/.turbo/
 **/.vite/
 **/.parcel-cache/
+.nx/
 
 # Docs 
 docs/
