@@ -112,7 +112,7 @@ jobs:
         with:
           apps: www
         env:
-          # WWW 
+          # WWW
           WWW_PORT: ${{ vars.WWW_PORT }}
           WWW_HOST: ${{ vars.WWW_HOST }}
 
