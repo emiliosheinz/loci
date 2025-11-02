@@ -115,6 +115,7 @@ jobs:
           # WWW
           WWW_PORT: ${{ vars.WWW_PORT }}
           WWW_HOST: ${{ vars.WWW_HOST }}
+          WWW_E2E_APP_BASE_URL: ${{ vars.WWW_E2E_APP_BASE_URL }}
 
       - name: Run E2E Tests for ${{ matrix.app }}
         run: docker compose -f docker-compose.prod.yaml --profile e2e up --exit-code-from ${{ matrix.app }}-e2e ${{ matrix.app }}-e2e
