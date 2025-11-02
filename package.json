@@ -11,13 +11,13 @@
   "author": "Loci Team",
   "packageManager": "pnpm@10.14.0",
   "devDependencies": {
+    "@nx/js": "22.0.2",
+    "@swc-node/core": "1.14.1",
+    "@swc-node/register": "1.11.1",
+    "nx": "22.0.2",
     "turbo": "2.1.1"
   },
   "engines": {
     "node": "24.x"
-  },
-  "dependencies": {
-    "@nx/js": "^22.0.2",
-    "nx": "^22.0.2"
   }
 }
