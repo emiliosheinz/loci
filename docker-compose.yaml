@@ -52,7 +52,7 @@ services:
       setup:
         condition: service_completed_successfully
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://$${HOSTNAME}:$${PORT}/health || exit 1"]
+      test: ["CMD-SHELL", "curl -fsS http://localhost:$${PORT}/health || exit 1"]
       start_period: 10s
       interval: 5s
       timeout: 3s
@@ -69,6 +69,8 @@ services:
       context: .
       target: dev
       dockerfile: apps/www/Dockerfile.e2e
+    env_file:
+      - ./apps/www/.env
     depends_on:
       setup:
         condition: service_completed_successfully

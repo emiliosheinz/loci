@@ -1,25 +1,25 @@
 services:
   api:
     container_name: api
-    env_file:
-      - ./apps/api/.env
     build:
       context: .
       target: prod 
       dockerfile: apps/api/Dockerfile
+    env_file:
+      - ./apps/api/.env
     ports:
       - "3000:3000"
 
   www:
     container_name: www
-    env_file:
-      - ./apps/www/.env
     build:
       context: .
       target: prod
       dockerfile: apps/www/Dockerfile
+    env_file:
+      - ./apps/www/.env
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://$${HOSTNAME}:$${PORT}/health || exit 1"]
+      test: ["CMD-SHELL", "curl -fsS http://localhost:$${PORT}/health || exit 1"]
       start_period: 10s
       interval: 5s
       timeout: 3s
@@ -30,14 +30,14 @@ services:
   www-e2e:
     container_name: www-e2e
     profiles: ["e2e"]
-    env_file:
-      - ./apps/www/.env
     environment:
       CI: "true"
     build:
       context: .
       target: prod
       dockerfile: apps/www/Dockerfile.e2e
+    env_file:
+      - ./apps/www/.env
     depends_on:
       www:
         condition: service_healthy
