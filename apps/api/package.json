@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "nest build",
-    "start:dev": "nest start",
+    "start:dev": "nest start --watch",
     "lint": "biome lint .",
     "format": "biome format .",
     "check": "biome check .",
@@ -23,6 +23,7 @@
     "docker:build": "docker build -f Dockerfile --target prod -t emiliosheinz/loci-api:latest $(git rev-parse --show-toplevel)"
   },
   "dependencies": {
+    "@loci/config": "workspace:*",
     "@nestjs/common": "11.1.6",
     "@nestjs/config": "4.0.2",
     "@nestjs/core": "11.1.6",
@@ -32,7 +33,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
-    "@loci/config": "workspace:*",
     "@nestjs/cli": "11.0.10",
     "@nestjs/schematics": "11.0.7",
     "@nestjs/testing": "11.1.6",
