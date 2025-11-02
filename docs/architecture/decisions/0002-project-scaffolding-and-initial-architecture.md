@@ -6,6 +6,8 @@ Date: 2025-09-11
 
 Accepted  
 
+Superceded by [6. Monorepo Build TITLE Release Strategy Update](0006-monorepo-build-release-strategy-update.md)
+
 ## Context
 
 We need to establish the initial foundation for the project to ensure consistency, scalability, and maintainability from day one.  

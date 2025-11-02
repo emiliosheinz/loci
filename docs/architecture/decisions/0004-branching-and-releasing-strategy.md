@@ -6,6 +6,8 @@ Date: 2025-10-23
 
 Accepted
 
+Superceded by [6. Monorepo Build TITLE Release Strategy Update](0006-monorepo-build-release-strategy-update.md)
+
 ## Context
 
 As Loci evolves into a **multi-application monorepo**, maintaining a consistent, automated, and traceable release process across apps and packages has become essential.  
