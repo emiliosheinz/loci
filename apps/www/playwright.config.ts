@@ -1,11 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
-if(!process.env.PORT) {
-  throw new Error("Environment variable PORT is not set");
-}
-
-if(!process.env.WWW_HOST) {
-  throw new Error("Environment variable WWW_HOST is not set");
+if (!process.env.E2E_APP_BASE_URL) {
+  throw new Error("Environment variable E2E_APP_BASE_URL is not set");
 }
 
 export default defineConfig({
@@ -15,7 +11,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   reporter: "list",
   use: {
-    baseURL: `http://${process.env.WWW_HOST}:${process.env.PORT}`,
+    baseURL: process.env.E2E_APP_BASE_URL,
     trace: "on-first-retry",
     video: "retain-on-failure",
   },
