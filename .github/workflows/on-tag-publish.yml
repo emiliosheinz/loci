@@ -1,0 +1,101 @@
+name: On Tag Publish
+
+on:
+  push:
+    tags:
+      - '*@*'
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    name: Publish package or app for tag
+    runs-on: ubuntu-latest
+    steps:
+      # Common steps to extract tag info
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Extract project and version from tag
+        id: tag
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          PROJECT="${TAG%@*}"
+          VERSION="${TAG#*@}"
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "project=$PROJECT" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - name: Determine project type 
+        id: project_type
+        run: |
+          PROJECT="${{ steps.tag.outputs.project }}"
+          if [ -f "packages/$PROJECT/package.json" ]; then
+            echo "type=package" >> $GITHUB_OUTPUT
+          elif [ -f "apps/$PROJECT/package.json" ]; then
+            echo "type=app" >> $GITHUB_OUTPUT
+          else
+            echo "Project $PROJECT not found" >&2
+            exit 1
+          fi
+
+      # Publish NPM package
+      - name: Setup Node dependencies
+        uses: ./.github/actions/setup-node-dependencies
+        if: steps.project_type.outputs.type == 'package'
+      - name: Install jq
+        if: steps.project_type.outputs.type == 'package'
+        run: sudo apt-get update && sudo apt-get install -y jq
+      - name: Publish NPM package
+        if: steps.project_type.outputs.type == 'package'
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+        run: |
+          PROJECT="${{ steps.tag.outputs.project }}"
+          PACKAGE_PATH="packages/$PROJECT/package.json"
+          PACKAGE_NAME=$(jq -r .name "$PACKAGE_PATH")
+          IS_PRIVATE=$(jq -r 'if has("private") then .private else "false" end' "$PACKAGE_PATH")
+          if [ "$IS_PRIVATE" = "true" ]; then
+            echo "Package $PACKAGE_NAME is private. Skipping publish."
+            exit 0
+          fi
+          echo "Publishing $PACKAGE_NAME version ${{ steps.tag.outputs.version }}"
+          pnpm turbo build --filter="$PACKAGE_NAME" || true
+          npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
+          pnpm publish --filter "$PACKAGE_NAME" --access public --no-git-checks
+
+      # Build and publish Docker image to GHCR
+      - name: Set up QEMU
+        if: steps.project_type.outputs.type == 'app'
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        if: steps.project_type.outputs.type == 'app'
+        uses: docker/setup-buildx-action@v3
+      - name: Login to GitHub Container Registry
+        if: steps.project_type.outputs.type == 'app'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push GHCR image
+        if: steps.project_type.outputs.type == 'app'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          target: prod
+          platforms: linux/amd64,linux/arm64
+          file: apps/${{ steps.tag.outputs.project }}/Dockerfile
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/loci-${{ steps.tag.outputs.project }}:${{ steps.tag.outputs.version }}
+            ghcr.io/${{ github.repository_owner }}/loci-${{ steps.tag.outputs.project }}:latest
+
+      - name: Summary
+        run: |
+          echo "Tag: ${{ steps.tag.outputs.tag }}"
+          echo "Project: ${{ steps.tag.outputs.project }}"
+          echo "Version: ${{ steps.tag.outputs.version }}"
+          echo "Type: ${{ steps.project_type.outputs.type }}"
