@@ -1,10 +1,12 @@
-name: On Tag Publish
+name: On tag publish
 
 on:
   push:
     tags:
       - '@**/*@*' # matches @scope/name@1.2.3
       - '*@*'     # matches name@1.2.3
+    branches:
+      - ci/improve-ci-cd-performance
 
 permissions:
   contents: read
@@ -15,25 +17,29 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  publish:
-    name: Publish package or app for tag
+  setup:
+    name: Parse tag
     runs-on: ubuntu-latest
+    outputs:
+      tag:     ${{ steps.tag.outputs.tag }}
+      project: ${{ steps.tag.outputs.project }}
+      version: ${{ steps.tag.outputs.version }}
+      type:    ${{ steps.project_type.outputs.type }}
     steps:
-      # Common steps to extract tag info
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0
-      # IMPORTANT: Repo layout uses apps/name or packages/name (no scope). We intentionally discard any @scope/ prefix.
+          fetch-depth: 1
       - name: Extract project and version from tag
         id: tag
         run: |
-          TAG="${GITHUB_REF##*/}"  # Strip leading refs/tags/ to get raw tag name
-          VERSION="${TAG##*@}"     # Version is the substring after the final '@'
-          PROJECT="${TAG%@*}"      # Raw project part (may include scope) is everything before last '@'
-          PROJECT="${PROJECT##*/}" # Keep only final path segment (drops optional scope like @scope/)
-          PROJECT="${PROJECT#@}"   # Remove leading '@' if present (scope indicator)
-          { echo "tag=$TAG"; echo "project=$PROJECT"; echo "version=$VERSION"; } >> "$GITHUB_OUTPUT"
+          # TAG="${GITHUB_REF##*/}"  # Strip leading refs/tags/ to get raw tag name
+          # VERSION="${TAG##*@}"     # Version is the substring after the final '@'
+          # PROJECT="${TAG%@*}"      # Raw project part (may include scope) is everything before last '@'
+          # PROJECT="${PROJECT##*/}" # Keep only final path segment (drops optional scope like @scope/)
+          # PROJECT="${PROJECT#@}"   # Remove leading '@' if present (scope indicator)
+          # { echo "tag=$TAG"; echo "project=$PROJECT"; echo "version=$VERSION"; } >> "$GITHUB_OUTPUT"
+          { echo "tag=www@1.2.3"; echo "project=www"; echo "version=1.2.3"; } >> "$GITHUB_OUTPUT"
       - name: Determine project type 
         id: project_type
         run: |
@@ -47,19 +53,24 @@ jobs:
             exit 1
           fi
 
-      # Publish NPM package
-      - name: Setup Node dependencies
+  npm:
+    name: Publish NPM package
+    runs-on: ubuntu-latest
+    needs: setup
+    if: needs.setup.outputs.type == 'package'
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+      - name: Setup node dependencies
         uses: ./.github/actions/setup-node-dependencies
-        if: steps.project_type.outputs.type == 'package'
       - name: Install jq
-        if: steps.project_type.outputs.type == 'package'
         run: sudo apt-get update && sudo apt-get install -y jq
-      - name: Publish NPM package
-        if: steps.project_type.outputs.type == 'package'
+      - name: Publish
         env:
           NPM_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
         run: |
-          PROJECT="${{ steps.tag.outputs.project }}"
+          PROJECT="${{ needs.setup.outputs.project }}"
           PACKAGE_PATH="packages/$PROJECT/package.json"
           PACKAGE_NAME=$(jq -r .name "$PACKAGE_PATH")
           IS_PRIVATE=$(jq -r 'if has("private") then .private else "false" end' "$PACKAGE_PATH")
@@ -67,46 +78,101 @@ jobs:
             echo "Package $PACKAGE_NAME is private. Skipping publish."
             exit 0
           fi
-          echo "Publishing $PACKAGE_NAME version ${{ steps.tag.outputs.version }}"
+          echo "Publishing $PACKAGE_NAME version ${{ needs.setup.outputs.version }}"
           pnpm turbo build --filter="$PACKAGE_NAME"
           npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
           pnpm publish --filter "$PACKAGE_NAME" --access public --no-git-checks
 
-      # Build and publish Docker image to GHCR
-      - name: Set up QEMU
-        if: steps.project_type.outputs.type == 'app'
-        uses: docker/setup-qemu-action@v3
-      - name: Set up Docker Buildx
-        if: steps.project_type.outputs.type == 'app'
-        uses: docker/setup-buildx-action@v3
-      - name: Login to GitHub Container Registry
-        if: steps.project_type.outputs.type == 'app'
-        uses: docker/login-action@v3
+  docker:
+    name: Build and push ${{ matrix.arch }} image
+    needs: setup
+    if: needs.setup.outputs.type == 'app'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            platform: linux/amd64
+            runner: ubuntu-latest
+            tag_suffix: amd64
+          - arch: arm64
+            platform: linux/arm64
+            runner: ubuntu-24.04-arm
+            tag_suffix: arm64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push GHCR image
-        if: steps.project_type.outputs.type == 'app'
+      - name: Build and push
+        id: build
         uses: docker/build-push-action@v6
         with:
           context: .
-          push: true
+          file: apps/${{ needs.setup.outputs.project }}/Dockerfile
           target: prod
-          platforms: linux/amd64,linux/arm64
-          file: apps/${{ steps.tag.outputs.project }}/Dockerfile
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          platforms: ${{ matrix.platform }}
+          push: false
+          provenance: false
           tags: |
-            ghcr.io/${{ github.repository_owner }}/loci-${{ steps.tag.outputs.project }}:${{ steps.tag.outputs.version }}
-            ghcr.io/${{ github.repository_owner }}/loci-${{ steps.tag.outputs.project }}:latest
-
-      - name: Summary
+            ghcr.io/${{ github.repository_owner }}/loci-${{ needs.setup.outputs.project }}:${{ needs.setup.outputs.version }}-${{ matrix.tag_suffix }}
+            ghcr.io/${{ github.repository_owner }}/loci-${{ needs.setup.outputs.project }}:latest-${{ matrix.tag_suffix }}
+          cache-from: type=gha,scope=loci-${{ matrix.arch }}
+          cache-to: type=gha,mode=max,scope=loci-${{ matrix.arch }}
+      - name: Append status to summary
+        if: always()
         run: |
           {
-            echo "### On Tag Publish"
-            echo "- Tag: \`${{ steps.tag.outputs.tag }}\`"
-            echo "- Project: \`${{ steps.tag.outputs.project }}\`"
-            echo "- Version: \`${{ steps.tag.outputs.version }}\`"
-            echo "- Type: \`${{ steps.project_type.outputs.type }}\`"
+            echo "## Docker (${{ matrix.arch }})"
+            echo "- Platform: \`${{ matrix.platform }}\`"
+            echo "- Runner: \`${{ matrix.runner }}\`"
+            echo "- Result: \`${{ steps.build.outcome || 'unknown' }}\`"
+            echo ""
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  manifest:
+    name: Create and push multi-arch manifest
+    needs: [setup, docker]
+    if: needs.setup.outputs.type == 'app'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create and push manifest
+        if: false
+        run: |
+          IMAGE="ghcr.io/${{ github.repository_owner }}/loci-${{ needs.setup.outputs.project }}"
+          VERSION="${{ needs.setup.outputs.version }}"
+          docker buildx imagetools create -t "$IMAGE:$VERSION" -t "$IMAGE:latest" \
+            "$IMAGE:$VERSION-amd64" "$IMAGE:$VERSION-arm64"
+
+  summary:
+    name: Write output 
+    needs: [setup, npm, docker, manifest]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Write summary
+        run: |
+          {
+            echo "## On Tag Publish"
+            echo "- Tag: \`${{ needs.setup.outputs.tag || 'n/a' }}\`"
+            echo "- Project: \`${{ needs.setup.outputs.project || 'n/a' }}\`"
+            echo "- Version: \`${{ needs.setup.outputs.version || 'n/a' }}\`"
+            echo "- Type: \`${{ needs.setup.outputs.type || 'n/a' }}\`"
+            echo ""
+            echo "## Job results"
+            echo "- npm: \`${{ needs.npm.result || 'skipped' }}\`"
+            echo "- docker matrix: \`${{ needs.docker.result || 'skipped' }}\`"
+            echo "- manifest: \`${{ needs.manifest.result || 'skipped' }}\`"
           } >> "$GITHUB_STEP_SUMMARY"
