@@ -5,7 +5,7 @@
     "projectsRelationship": "independent",
     "projects": ["apps/*", "packages/*"],
     "git": {
-      "commitMessage": "chore(release): publish new version"
+      "commitMessage": "chore(release): publish new version [skip release]"
     },
     "version": {
       "conventionalCommits": true
