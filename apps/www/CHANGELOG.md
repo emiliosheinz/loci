@@ -1,3 +1,18 @@
+## 0.1.1 (2025-11-03)
+
+### 🩹 Fixes
+
+- **www:** E2E_APP_BASE_URL environment variable ([7679b86](https://github.com/emiliosheinz/loci/commit/7679b86))
+- environment variables loading ([d346262](https://github.com/emiliosheinz/loci/commit/d346262))
+
+### 🧱 Updated Dependencies
+
+- Updated @loci/config to 0.1.1
+
+### ❤️ Thank You
+
+- Emilio Heinzmann
+
 ## 0.1.0 (2025-10-31)
 
 ### 🚀 Features

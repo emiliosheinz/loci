@@ -1,3 +1,18 @@
+## 0.1.1 (2025-11-03)
+
+### 🩹 Fixes
+
+- environment variables loading ([d346262](https://github.com/emiliosheinz/loci/commit/d346262))
+- **api:** add watch to start dev and move loci config do deps ([636c370](https://github.com/emiliosheinz/loci/commit/636c370))
+
+### 🧱 Updated Dependencies
+
+- Updated @loci/config to 0.1.1
+
+### ❤️ Thank You
+
+- Emilio Heinzmann
+
 ## 0.1.0 (2025-10-31)
 
 ### 🚀 Features
