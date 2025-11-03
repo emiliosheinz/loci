@@ -3,7 +3,8 @@ name: On Tag Publish
 on:
   push:
     tags:
-      - '*@*'
+      - '@**/*@*' # matches @scope/name@1.2.3
+      - '*@*'     # matches name@1.2.3
 
 permissions:
   contents: read
