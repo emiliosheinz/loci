@@ -1,6 +1,6 @@
 # Loci Config
 
-Shared configuration package for the Loci monorepo.
+Shared configuration package for the Loci monorepo providing centralized, versioned build and tooling settings.
 
 ## Overview
 
