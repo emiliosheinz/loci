@@ -1,3 +1,13 @@
+## 0.1.3 (2025-11-03)
+
+### 🚀 Features
+
+- **config:** add keyword and clarify README for release ([09bc863](https://github.com/emiliosheinz/loci/commit/09bc863))
+
+### ❤️ Thank You
+
+- Emilio Heinzmann
+
 ## 0.1.2 (2025-11-03)
 
 ### 🚀 Features
