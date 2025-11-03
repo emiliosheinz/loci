@@ -9,6 +9,10 @@ permissions:
   contents: read
   packages: write
 
+concurrency:
+  group: on-tag-publish-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   publish:
     name: Publish package or app for tag
@@ -89,13 +93,18 @@ jobs:
           target: prod
           platforms: linux/amd64,linux/arm64
           file: apps/${{ steps.tag.outputs.project }}/Dockerfile
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           tags: |
             ghcr.io/${{ github.repository_owner }}/loci-${{ steps.tag.outputs.project }}:${{ steps.tag.outputs.version }}
             ghcr.io/${{ github.repository_owner }}/loci-${{ steps.tag.outputs.project }}:latest
 
       - name: Summary
         run: |
-          echo "Tag: ${{ steps.tag.outputs.tag }}"
-          echo "Project: ${{ steps.tag.outputs.project }}"
-          echo "Version: ${{ steps.tag.outputs.version }}"
-          echo "Type: ${{ steps.project_type.outputs.type }}"
+          {
+            echo "### On Tag Publish"
+            echo "- Tag: \`${{ steps.tag.outputs.tag }}\`"
+            echo "- Project: \`${{ steps.tag.outputs.project }}\`"
+            echo "- Version: \`${{ steps.tag.outputs.version }}\`"
+            echo "- Type: \`${{ steps.project_type.outputs.type }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
