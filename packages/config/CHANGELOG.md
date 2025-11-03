@@ -1,3 +1,13 @@
+## 0.1.2 (2025-11-03)
+
+### 🚀 Features
+
+- **config:** make config package private and improve keywords ([89a9952](https://github.com/emiliosheinz/loci/commit/89a9952))
+
+### ❤️ Thank You
+
+- Emilio Heinzmann
+
 ## 0.1.1 (2025-11-03)
 
 This was a version bump only for @loci/config to align it with other projects, there were no code changes.

@@ -1,3 +1,9 @@
+## 0.1.2 (2025-11-03)
+
+### 🧱 Updated Dependencies
+
+- Updated @loci/config to 0.1.2
+
 ## 0.1.1 (2025-11-03)
 
 ### 🩹 Fixes
