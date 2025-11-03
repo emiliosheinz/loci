@@ -1,23 +1,35 @@
 {
-  "name": "@loci/config",
-  "version": "0.1.1",
-  "description": "Shared configuration for Loci monorepo",
-  "license": "MIT",
-  "author": "Loci Team",
-  "scripts": {
-    "build": "tsup"
-  },
-  "exports": {
-    "./biome": "./dist/biome.json",
-    "./typescript": "./dist/tsconfig.json",
-    "./jest": {
-      "types": "./dist/jest.config.d.ts",
-      "import": "./dist/jest.config.mjs",
-      "require": "./dist/jest.config.js"
-    }
-  },
-  "devDependencies": {
-    "jest": "catalog:",
-    "tsup": "8.5.0"
-  }
+	"name": "@loci/config",
+	"version": "0.1.1",
+	"private": true,
+	"description": "Shared configuration for Loci monorepo",
+	"license": "MIT",
+	"author": "Loci Team",
+	"keywords": [
+		"loci",
+		"config",
+		"typescript",
+		"jest",
+		"biome"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/emiliosheinz/loci.git"
+	},
+	"scripts": {
+		"build": "tsup"
+	},
+	"exports": {
+		"./biome": "./dist/biome.json",
+		"./typescript": "./dist/tsconfig.json",
+		"./jest": {
+			"types": "./dist/jest.config.d.ts",
+			"import": "./dist/jest.config.mjs",
+			"require": "./dist/jest.config.js"
+		}
+	},
+	"devDependencies": {
+		"jest": "catalog:",
+		"tsup": "8.5.0"
+	}
 }
