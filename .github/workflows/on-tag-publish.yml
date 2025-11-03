@@ -23,15 +23,16 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
+      # IMPORTANT: Repo layout uses apps/name or packages/name (no scope). We intentionally discard any @scope/ prefix.
       - name: Extract project and version from tag
         id: tag
         run: |
-          TAG="${GITHUB_REF#refs/tags/}"
-          PROJECT="${TAG%@*}"
-          VERSION="${TAG#*@}"
-          echo "tag=$TAG" >> $GITHUB_OUTPUT
-          echo "project=$PROJECT" >> $GITHUB_OUTPUT
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          TAG="${GITHUB_REF##*/}"  # Strip leading refs/tags/ to get raw tag name
+          VERSION="${TAG##*@}"     # Version is the substring after the final '@'
+          PROJECT="${TAG%@*}"      # Raw project part (may include scope) is everything before last '@'
+          PROJECT="${PROJECT##*/}" # Keep only final path segment (drops optional scope like @scope/)
+          PROJECT="${PROJECT#@}"   # Remove leading '@' if present (scope indicator)
+          { echo "tag=$TAG"; echo "project=$PROJECT"; echo "version=$VERSION"; } >> "$GITHUB_OUTPUT"
       - name: Determine project type 
         id: project_type
         run: |
