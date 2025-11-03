@@ -8,6 +8,7 @@ import { Problems } from "./_components/problems";
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
+      Normal app change that we would do on a daily basis
       <Header />
       <Hero />
       <Problems />
