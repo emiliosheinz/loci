@@ -1,3 +1,13 @@
+## 0.1.4 (2025-11-03)
+
+### 🚀 Features
+
+- **config:** drop shared from config keyword ([619ac77](https://github.com/emiliosheinz/loci/commit/619ac77))
+
+### ❤️ Thank You
+
+- Emilio Heinzmann
+
 ## 0.1.3 (2025-11-03)
 
 ### 🚀 Features
