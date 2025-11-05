@@ -1,3 +1,5 @@
+# for CLI use (e.g., in CI/CD pipelines).
+
 ARG NODE_TAG=24-bookworm
 ARG PLAYWRIGHT_VERSION=1.56.0
 

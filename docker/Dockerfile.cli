@@ -1,4 +1,5 @@
 # General-purpose Node image with pnpm available
+# for CLI use (e.g., in CI/CD pipelines).
 
 ARG NODE_TAG=24-alpine
 ARG PNPM_VERSION=10.14.0
