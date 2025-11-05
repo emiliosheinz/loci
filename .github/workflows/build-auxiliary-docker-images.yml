@@ -59,7 +59,7 @@ jobs:
           fi
 
   build:
-    name: Build and push Docker images
+    name: Build and push
     needs: plan
     if: ${{ fromJSON(needs.plan.outputs.matrix).include != null && fromJSON(needs.plan.outputs.matrix).include[0] != null }}
     runs-on: ubuntu-latest
@@ -85,7 +85,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Docker image
+      - name: Build and push
         uses: docker/build-push-action@v6
         with:
           context: .
