@@ -1,9 +1,13 @@
 # General-purpose Node image with pnpm available
-FROM node:24-alpine
+
+ARG NODE_TAG=24-alpine
+ARG PNPM_VERSION=10.14.0
+
+FROM node:${NODE_TAG}
 
 RUN apk add --no-cache git curl vim
 
-RUN corepack enable pnpm && corepack install -g pnpm@10.14.0
+RUN corepack enable pnpm && corepack install -g pnpm@${PNPM_VERSION}
 
 ENV GIT_DIR=/loci/.git
 ENV GIT_WORK_TREE=/loci
