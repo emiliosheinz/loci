@@ -3,7 +3,7 @@ services:
     container_name: setup
     build:
       context: .
-      dockerfile: Dockerfile.loci
+      dockerfile: ./docker/Dockerfile.cli
     volumes:
       - .:/loci
     command: sh -lc "pnpm install"
@@ -13,7 +13,7 @@ services:
     container_name: workspace
     build:
       context: .
-      dockerfile: Dockerfile.loci
+      dockerfile: ./docker/Dockerfile.cli
     depends_on:
       setup:
         condition: service_completed_successfully

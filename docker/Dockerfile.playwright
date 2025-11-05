@@ -1,0 +1,12 @@
+ARG NODE_TAG=24-bookworm
+ARG PLAYWRIGHT_VERSION=1.56.0
+
+FROM node:${NODE_TAG}
+
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+
+RUN npm i -g playwright@${PLAYWRIGHT_VERSION} \
+ && playwright --version \
+ && playwright install --with-deps chromium firefox webkit
+
+RUN ls -la /ms-playwright
