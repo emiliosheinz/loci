@@ -5,11 +5,13 @@ on:
     branches: [main]
     types: [opened, synchronize, reopened]
 
+env:
+  TURBO_SCM_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+
 jobs:
   lint-format:
     name: Lint & Format Check
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -28,7 +30,6 @@ jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -44,7 +45,6 @@ jobs:
   build:
     name: Build Verification
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -78,7 +78,6 @@ jobs:
   conventional-commits:
     name: Validate Conventional Commits
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
